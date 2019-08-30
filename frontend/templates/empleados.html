@@ -1,0 +1,14 @@
+<div class="create_template">
+    <div class="alert alert-secondary" role="alert" align=center>
+        <h5>MÓDULO DE EMPLEADOS</h5>
+    </div>
+</div>
+<div class="container">
+</div>
+<div ng-controller="BotonesController">
+    <div align="center" name="nbotones" class="form_group" ng-show="visibilidad">
+        <a class="btn btn-success" href="#!/create" (click)="isShown = false">Crear</a>
+        <a class="btn btn-warning" href="#!/reporte" (click)="isShown = false">Reporte</a>
+        <a class="btn btn-danger" href="#!/inicio" (click)="isShown = false">Salir</a>
+    </div>
+</div>

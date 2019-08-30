@@ -1,0 +1,20 @@
+.create_template {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.ngRow.even{
+    background: aliceblue;
+}
+
+.ngRow.odd{
+    background: yellowgreen;
+}
+
+/*input.ng-valid{
+    border:thin solid #090;
+}
+
+input.ng-invalid{
+    border:1px solid #990000;
+}*/

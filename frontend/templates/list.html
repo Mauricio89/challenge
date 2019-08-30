@@ -1,0 +1,92 @@
+<div class="create_template">
+    <div class="alert alert-secondary" role="alert" align=center>
+        <h5>MÓDULO DE EMPLEADOS</h5>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3 col-md-6 col-lg-4">
+            <!--ng-controller="BuscarCodController"-->
+            <div class="form-group">
+                <label for="nom">Nombre</label>
+                <!--input id="nom" name="nom" placeholder="Nombre" ng-model="buscar" class="form-control"-->
+                <input id="nom" placeholder="Nombre" ng-model="buscar.apellido_empleado" class="form-control">
+            </div>
+        </div>
+        <div class="col-sm-3 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="cod">Código Empelado</label>
+                <input id="cod" placeholder="Código Empelado" ng-model="buscar.codigo_empleado" class="form-control">
+            </div>
+        </div>
+        <div class="col-sm-3 col-md-6 col-lg-4">
+            <button type="submit" ng-click="buscar" class="btn btn-info">Buscar</button>
+        </div>
+    </div>
+
+    <p ng-show="$parent.settings.success" class="alert alert-success">{{$parent.settings.success}}</p>
+
+    <div class="row" ng-controller="TableFilterAppController">
+        <div class="col-sm-3 col-md-6 col-lg-12 margin-tb">
+            <table class="table table-bordered pagin-table">
+                <thead>
+                    <tr>
+                        <!--th>No.</th-->
+                        <th ng-click="sortType='apellido_empleado';sortReverse = !sortReverse">Nombre</th>
+                        <th ng-click="sortType='codigo_empleado';sortReverse = !sortReverse">Código</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="empleado in empleados | orderBy:sortType:sortReverse | filter:buscar">
+                        <!--td ng-if="$odd" style="background-color:#f1f1f1">{{ $index + 1 }}</td-->
+                        <td>{{ empleado.apellido_empleado | uppercase }} {{ empleado.nombre_empleado | uppercase }}</td>
+                        <td>{{ empleado.codigo_empleado }}</td>
+                        <td>{{ empleado.descripcion_estado }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" align="center">Unicamente se estan desplegando los primeros 10 registros, si no
+                            encuentra la información deseada por favor utilice los filtros de la aprte superior.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <dir-pagination-controls class="pull-right" on-page-change="pageChanged(newPageNumber)"
+                template-url="templates/dirPagination.html"></dir-pagination-controls>
+
+        </div>
+    </div>
+</div>
+
+<div>
+    <div align="center" name="nbotones" class="form_group">
+        <a class="btn btn-success" href="#!/create" (click)="isShown = false">Crear</a>
+        <a class="btn btn-warning" href="#!/reporte" (click)="isShown = false">Reporte</a>
+        <a class="btn btn-danger" href="#!/inicio" (click)="isShown = false">Salir</a>
+    </div>
+</div>
+
+<!--div class="row">
+    <button class="btn btn-success" data-toggle="modal" data-target="#!/create">Nuevo</button>
+    <button class="btn btn-success" data-toggle="modal" data-target="#!/create">Reporte</button>
+    <button class="btn btn-success" data-toggle="modal" data-target="#!/create">Salir</button>
+    <div class="panel-body">
+        <div class="alert alert-warning" ng-hide="empleados">
+            <p>No hay empleados en la base de datos...</p>
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="empleado in empleados">
+                <p>{{empleado.nombre_empleado}}</p>
+                <p>{{empleado.apellido_empleado}}</p>
+                {{empleado.correo_empleado}}
+                <a href="#/edit/{{empleado.codigo_empleado}}">{{empleado.nombre_empleado}}</a>
+
+                <div class="pull-right action-buttons">
+                    <a href="#/view/{{empleado.codigo_empleado}}"><span class="glyphicon glyphicon-calendar"></span>
+                    </a>
+                    <button ng-click="remove(empleado.codigo_empleado)" class="trash"><span
+                            class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div-->

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Challenge Programación</title>
+    <link rel="stylesheet" type="text/css" href="./bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <link rel="stylesheet" type="text/css" href="./css/custom.css">
+    <link rel="stylesheet" type="text/css" href="./bower_components/angular-ui-grid/css/ui-grid.core.css">
+    <!--script type="text/javascript" src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./bower_components/jquery/dist/jquery.min.js"></script-->
+</head>
+
+<body>
+    <div ng-include="'templates/nav.html'"></div>
+    <div ng-controller="fechaController" align="right">
+        <span id="fecha">{{CurrentDate | date:'dd-MM-yyyy'}}</span>
+    </div>
+    <div class="container">
+        <div ng-view></div>
+    </div>
+
+    <script type="text/javascript" src="./bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="./bower_components/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="./bower_components/angular-resource/angular-resource.js"></script>
+    <script type="text/javascript" src="./bower_components/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="./scripts/app.js"></script>
+    <script type="text/javascript" src="./scripts/validaciones.js"></script>
+    <script src="./scripts/subirimagen_service.js"></script>
+    <script src="./scripts/subirimagen_directive.js"></script>
+</body>
+
+</html>

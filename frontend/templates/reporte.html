@@ -1,0 +1,62 @@
+<div class="row">
+    <div class="col-lg-12 margin-tb alert alert-secondary" role="alert" align=center>
+        <h5>MÓDULO DE EMPLEADOS</h5>
+    </div>
+
+    <div class="col-lg-12 margin-tb">
+        <div class="alert alert-info" role="alert" align=center>
+            <h4>Reporte de empleados</h4>
+        </div>
+    </div>
+
+    <div class="row" ng-controller="TableFilterAppController">
+        <table class="table table-bordered pagin-table">
+            <thead>
+                <tr>
+                    <!--th>No.</th-->
+                    <th ng-click="sortType='apellido_empleado';sortReverse = !sortReverse">NOMBRE
+                        <span ng-show="!sortReverse">^</span>
+                    <span ng-show="sortReverse">v</span></span></th>
+                    <th ng-click="sortType='cedula_empleado';sortReverse = !sortReverse">RUC/CÉDULA</th>
+                    <th ng-click="sortType='codigo_empleado';sortReverse = !sortReverse">CÓDIGO</th>
+                    <th ng-click="sortType='fecha_nacimiento_empleado';sortReverse = !sortReverse">F. NACIMIENTO</th>
+                    <th ng-click="sortType='nombre_provincia';sortReverse = !sortReverse">DIRECCIÓN</th>
+                    <th ng-click="sortType='departamento_empleado';sortReverse = !sortReverse">DEPARTAMENTO</th>
+                    <th ng-click="sortType='cargo_empleado';sortReverse = !sortReverse">CARGO</th>
+                    <th ng-click="sortType='fecha_ingreso';sortReverse = !sortReverse">F. INGRESO</th>
+                    <th ng-click="sortType='descripcion_estado';sortReverse = !sortReverse">STATUS</th>
+                    <th ng-click="sortType='sueldo_empleado';sortReverse = !sortReverse">SUELO</th>
+                    <th ng-click="sortType='jornada_empleado';sortReverse = !sortReverse">JORNADA LABORAL</th>
+                    <th ng-click="sortType='correo_empleado';sortReverse = !sortReverse">EMAIL</th>
+                    <th ng-click="sortType='observacion_laboral';sortReverse = !sortReverse">OBS. LABORAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="empleado in reporte | orderBy:sortType:sortReverse | filter:buscar">
+                    <!--td>{{ $index + 1 }}</td-->
+                    <td>{{ empleado.apellido_empleado | uppercase }} {{ empleado.nombre_empleado | uppercase }}</td>
+                    <td>{{ empleado.cedula_empleado }}</td>
+                    <td>{{ empleado.codigo_empleado }}</td>
+                    <td>{{ empleado.fecha_nacimiento_empleado }}</td>
+                    <td>{{ empleado.nombre_provincia }}</td>
+                    <td>{{ empleado.departamento_empleado }}</td>
+                    <td>{{ empleado.cargo_empleado }}</td>
+                    <td>{{ empleado.fecha_ingreso }}</td>
+                    <td>{{ empleado.descripcion_estado }}</td>
+                    <td>$ {{ empleado.sueldo_empleado }}</td>
+                    <td>{{ empleado.jornada_empleado }}</td>
+                    <td>{{ empleado.correo_empleado }}</td>
+                    <td>{{ empleado.observacion_laboral }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <dir-pagination-controls class="pull-right" on-page-change="pageChanged(newPageNumber)"
+            template-url="templates/dirPagination.html"></dir-pagination-controls>
+    </div>
+</div>
+
+<div>
+    <div align="center" name="nbotones" class="form_group">
+        <a class="btn btn-danger" href="#!/inicio" (click)="isShown = false">Salir</a>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="create_template">
+    <div class="alert alert-secondary" role="alert" align=center>
+        <h5>MÓDULO ADMINISTRACIÓN</h5>
+    </div>
+
+    <div class="alert alert-info" role="alert" align=center>
+        <h5>LISTA DE PROVINCIAS</h5>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="nom">Nombre</label>
+                <input id="nom" placeholder="Nombre" ng-model="buscar.nombre_provincia" class="form-control">
+            </div>
+        </div>
+        <div class="col-sm-3 col-md-6 col-lg-4">
+            <div class="form-group">
+                <label for="cod">Capital</label>
+                <input id="cod" placeholder="Nombre" ng-model="buscar.capital_provincia" class="form-control">
+            </div>
+        </div>
+    </div>
+
+    <p ng-show="$parent.settings.success" class="alert alert-success">{{$parent.settings.success}}</p>
+
+    <div class="row" ng-controller="TableFilterAppController">
+        <div class="col-sm-3 col-md-6 col-lg-12 margin-tb">
+            <table class="table table-bordered pagin-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th ng-click="sortType='nombre_provincia';sortReverse = !sortReverse">Nombre</th>
+                        <th ng-click="sortType='capital_provincia';sortReverse = !sortReverse">Código</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="provincia in provincias | orderBy:sortType:sortReverse | filter:buscar">
+                        <td >{{ $index + 1 }}</td>
+                        <td>{{ provincia.nombre_provincia | uppercase }} </td>
+                        <td>{{ provincia.capital_provincia | uppercase}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <dir-pagination-controls class="pull-right" on-page-change="pageChanged(newPageNumber)"
+                template-url="templates/dirPagination.html"></dir-pagination-controls>
+
+        </div>
+    </div>
+</div>

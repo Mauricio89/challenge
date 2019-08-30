@@ -1,0 +1,312 @@
+<style>
+    .activetab {
+        color: black;
+        /* Colors the text in black */
+        border-bottom: 3px solid #2d2d2d;
+        /* Underlines the text with a bold dark border */
+    }
+
+    .tabs {
+        margin: 1em;
+        /* Adds lots of space around the tabs, to avoid the border to fall into the tab content area */
+    }
+
+    /* Only visible when the mouse is on a tab title */
+    .tab:hover {
+        color: rgb(19, 18, 18);
+        /* Colors the text in black to highlight the possible selection */
+        text-decoration: none;
+        /* Removes the hyperlink underline style */
+    }
+</style>
+
+<div class="alert alert-secondary" role="alert" align=center>
+    <h5>MÓDULO DE EMPLEADOS</h5>
+</div>
+
+<div class="alert alert-info" role="alert" align=center>
+    <h5>{{$parent.settings.pageTitle | uppercase}}</h5>
+</div>
+
+<p ng-show="$parent.settings.success" class="alert alert-success">{{$parent.settings.success}}</p>
+
+<div class="container-fluid" ng-controller="BotonesController">
+    <div ng-init="tabselector = 'firsttab'">
+        <div class="tabs">
+            <a class="tab" ng-click="tabselector = 'firsttab'"
+                ng-class="{'activetab' : tabselector == 'firsttab'}">Datos Personales</a>
+            <a class="tab" ng-click="tabselector = 'secondtab'"
+                ng-class="{'activetab' : tabselector == 'secondtab'}">Datos Laborales</a>
+        </div>
+
+        <div>
+            <div ng-if="tabselector == 'firsttab'">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-3 col-md-6 col-lg-6">
+                            <div class="form-group" ng-class="{'has-error': add_empleado.nombre.$invalid,
+                                    'has-success':add_empleado.nombre.$valid}">
+                                <label for="nombre">Nombre:</label>
+                                <div class="required-field-block">
+                                    <input id="nombre" name="nombre" type="text" placeholder="Nombre"
+                                        ng-model="empleado.nombre_empleado" class="form-control" required autofocus
+                                        onkeypress="return soloLetras(event)">
+                                    <div class="required-icon">
+                                        <div class="text">*</div>
+                                    </div>
+                                </div>
+                                <!-- mensajes de validaciones -->
+                                <div ng-show="!empleado.nombre_empleado && add_empleado.$submitted"
+                                    class="alert alert-warning ">Debe llenar este campo.
+                                </div>
+                                <div ng-show="add_empleado.nombre.$dirty">
+                                    <div ng-show="add_empleado.nombre.$error.required" class="alert alert-danger"
+                                        role="alert">
+                                        Campo nombre obligatorio.
+                                    </div>
+                                </div>
+                                <!-- fin mensajes de validaciones -->
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-6 col-lg-6">
+                            <div class="form-group" ng-class="{'has-error': add_empleado.apellido.$invalid,
+                                    'has-success':add_empleado.apellido.$valid}">
+                                <label for="apellido">Apellido:</label>
+                                <div class="required-field-block">
+                                    <input id="apellido" name="apellido" type="text" placeholder="Apellido"
+                                        ng-maxlength="50" ng-model="empleado.apellido_empleado" class="form-control"
+                                        onkeypress="return soloLetras(event)">
+                                    <div class="required-icon">
+                                        <div class="text">*</div>
+                                    </div>
+                                </div>
+                                <!-- mensajes de validaciones -->
+                                <div ng-show="!empleado.apellido_empleado && add_empleado.$submitted"
+                                    class="alert alert-warning ">Debe llenar este campo.
+                                </div>
+                                <div ng-show="add_empleado.nombre.$dirty">
+                                    <div ng-show="add_empleado.apellido.$error.required" class="alert alert-danger"
+                                        role="alert">
+                                        Campo apellido obligatorio.
+                                    </div>
+                                </div>
+                                <!-- fin mensajes de validaciones -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-6 col-lg-6">
+                            <div class="form-group" ng-class="{'has-error': add_empleado.cedula.$invalid,
+                                    'has-success':add_empleado.cedula.$valid}">
+                                <label for="cedula">RUC/Cédula:</label>
+                                <div class="required-field-block">
+                                    <input id="cedula" name="cedula" type="text" placeholder="Cédula" ng-minlength='10'
+                                        maxlength="13" ng-model="empleado.cedula_empleado" class="form-control" required
+                                        onkeypress="return soloNumeros(event)" onblur="validarCedula()">
+                                    <div class="required-icon">
+                                        <div class="text">*</div>
+                                    </div>
+                                </div>
+                                <!-- mensajes de validaciones -->
+                                <div ng-show="!empleado.cedula_empleado && add_empleado.$submitted"
+                                    class="alert alert-warning ">Debe llenar este campo
+                                </div>
+                                <div ng-show="add_empleado.cedula.$dirty">
+                                    <div ng-show="add_empleado.cedula.$error.required" class="alert alert-danger"
+                                        role="alert">
+                                        Campo cédula obligatorio.
+                                    </div>
+                                    <div ng-show="add_empleado.cedula.$error.minlength" class="alert alert-danger"
+                                        role="alert">
+                                        La cédula detener mínimo 10 dígitos.
+                                    </div>
+                                    <div ng-show="add_empleado.cedula.$error.maxlength" class="alert alert-danger"
+                                        role="alert">
+                                        El RUC detener mínimo 13 dígitos.
+                                    </div>
+                                </div>
+                                <!-- fin mensajes de validaciones -->
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="provincia">Provincia:</label>
+                                <div class="required-field-block">
+                                    <select ng-model="empleado.id_provincia" class="form-control">
+                                        <option value="">Escoja una provincia...</option>
+                                        <option ng-repeat="provincia in provincias" value="{{provincia.id_provincia}}">
+                                            {{provincia.nombre_provincia}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="fnac">Fecha de Nacimiento:</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="date" ng-model="empleado.fecha_nacimiento_empleado" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="correo">Email:</label>
+                                <div class="required-field-block" ng-class="{'has-error': add_empleado.correo.$invalid,
+                                    'has-success':add_empleado.correo.$valid}">
+                                    <input id="correo" name="correo" type="email" ng-model="empleado.correo_empleado"
+                                        class="form-control" placeholder="correo-personal@email.com" required>
+                                    <div class="required-icon">
+                                        <div class="text">*</div>
+                                    </div>
+                                    <!-- mensajes de validaciones -->
+                                    <div ng-show="!empleado.correo_empleado && add_empleado.$submitted"
+                                        class="alert alert-warning ">Debe llenar este campo
+                                    </div>
+                                    <div ng-show="add_empleado.correo.$dirty">
+                                        <div ng-show="add_empleado.correo.$error.required" class="alert alert-danger"
+                                            role="alert">
+                                            Campo correo obligatorio.
+                                        </div>
+                                        <div ng-show="add_empleado.correo.$error.email" class="alert alert-danger"
+                                            role="alert">
+                                            Correo inválido.
+                                        </div>
+                                    </div>
+                                    <!-- fin mensajes de validaciones -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="obs">Observaciones:</label>
+                                <div class="required-field-block">
+                                    <textarea id="obs" ng-model="empleado.observacion_empleado" class="form-control"
+                                        rows="5" id="comment"
+                                        placeholder="Comentario u observación referente a la ficha personal."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label class="control_label" for="foto">Fotografía:</label>
+                                <div class="figure" ng-if="archivo_model.value">
+                                    <img id="foto" name="foto" ng-src="public/imagenes/{{empleado.foto_empleado}}"
+                                        class="figure-img img-fluid rounded" alt="Foto"
+                                        style="width: 25%; height: 25%;">
+                                    <div class="figure-caption text-right">{{ archivo_model.value.name }}</div>
+                                </div>
+                                <span class="btn btn-secondary">
+                                    Subir imagenes
+                                    <input type="file" id="file" name="file" file-model="archivo_model.value"
+                                        accept="image/*" onchange="leerURL(this);">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="tabselector == 'secondtab'">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-3 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="fing">Fecha de Ingreso:</label>
+                                <div class="required-field-block">
+                                    <input type="date" ng-model="empleado.fecha_ingreso" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="cargo">Cargo:</label>
+                                <input id="cargo" type="text" placeholder="Cargo" ng-maxlength="100"
+                                    ng-model="empleado.cargo_empleado" class="form-control"
+                                    onkeypress="return soloLetras(event)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="departamento">Departamento:</label>
+                                <input id="departamento" type="text" placeholder="Departamento" ng-maxlength="100"
+                                    ng-model="empleado.departamento_empleado" class="form-control"
+                                    onkeypress="return soloLetras(event)">
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="provincialab">Provincia:</label>
+                                <div class="required-field-block">
+                                    <select ng-model="empleado.id_provincia_laboral" class="form-control">
+                                        <option value="">Escoja una provincia...</option>
+                                        <option ng-repeat="provincia in provincias" value="{{provincia.id_provincia}}">
+                                            {{provincia.nombre_provincia}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-6 col-lg-6" ng-controller="MonedaController">
+                            <div class="form-group">
+                                <label for="sueldo">Sueldo:</label>
+                                <div class="input-group mb-2">
+                                    <input id="sueldo" name="sueldo" type="text" ng-model="empleado.sueldo_empleado"
+                                        class="form-control" ng-pattern="regex" placeholder="0.00" maxlength="10"
+                                        onkeypress="return soloDecimales(event)" />
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">USD</div>
+                                    </div>
+                                </div>
+                                <!-- mensajes de validaciones -->
+                                <div ng-if="!add_empleado.sueldo.$valid" class="alert alert-danger" role="alert">
+                                    Sueldo no tiene el formato correcto. Ejm: 0.00 (2 decimales)
+                                </div>
+                                <!-- fin mensajes de validaciones -->
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="jornada">Jornada Parcial:</label>
+                            </div>
+                            <div class="form-group">
+                                <label><input type="radio" ng-model="empleado.jornada_empleado" value="SI" />SI
+                                </label>
+                                <label><input type="radio" ng-model="empleado.jornada_empleado" value="NO" />NO
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-6 col-lg-12">
+                            <div class="form-group">
+                                <label for="obslab">Observaciones:</label>
+                                <div class="required-field-block">
+                                    <textarea id="obslab" ng-model="empleado.observacion_laboral" class="form-control"
+                                        rows="5" id="comment"
+                                        placeholder="Comentario u observación referente a la ficha laboral."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div align="center">
+                <button class="btn btn-success" ng-disabled="add_empleado.$invalid"
+                    ng-click="cambiar(); tabselector = 'secondtab'" ng-hide="visibilidad"
+                    ng-class="{'activetab' : tabselector == 'secondtab'}">Continuar</button>
+                <button ng-disabled="add_empleado.$invalid" class="btn btn-success" ng-click="submit($parent.empleado)"
+                    ng-show="visibilidad">{{$parent.settings.action}}</button>
+                <a class="btn btn-warning" href="#!/reporte" (clicAk)="isShown = false">Reporte</a>
+                <a class="btn btn-danger" href="#!/inicio" (click)="isShown = false">Salir</a>
+            </div>
+        </div>
+    </div>
+</div>
